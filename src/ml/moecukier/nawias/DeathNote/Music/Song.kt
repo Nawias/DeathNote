@@ -15,6 +15,7 @@ class Song constructor(private val name: String){
 
     suspend fun playSong(location: Location, player: Player) {
         for (note in notes) {
+
             delay(note.getMilliseconds())
             note.playAtPos(location,player)
         }

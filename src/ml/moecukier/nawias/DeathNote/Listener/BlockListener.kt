@@ -6,10 +6,10 @@ import org.bukkit.event.block.BlockBreakEvent
 import org.bukkit.event.block.BlockListener
 
 class BlockListener : BlockListener() {
-    override fun onBlockBreak(event: BlockBreakEvent?) {
-        var block = event?.block;
-        if(Main.deathListener.isDeathNoteblock(block!!))
-            event?.isCancelled = true
+    override fun onBlockBreak(event: BlockBreakEvent) {
+        var block = event.block;
+        if(Main.deathListener.isDeathNoteblock(block))
+            event.isCancelled = true
 
         super.onBlockBreak(event)
     }
