@@ -1,92 +1,27 @@
 package ml.moecukier.nawias.DeathNote.Music
 
+import com.beust.klaxon.Klaxon
 import kotlinx.coroutines.delay
+import ml.moecukier.nawias.DeathNote.Util.FileUtil
 import org.bukkit.Location
 import org.bukkit.entity.Player
 
-class Song constructor(val name:String){
+class Song constructor(private val name: String){
 
-    var notes : List<Note> = listOf<Note>();
+    var notes : List<Note> = listOf<Note>()
     init {
-        notes = listOf<Note>(
-            Note(Instrument.PIANO,Pitch.C2, 0),
-            Note(Instrument.PIANO,Pitch.AS1, 4),
-            Note(Instrument.PIANO,Pitch.A1, 4),
-            Note(Instrument.PIANO,Pitch.F1, 4),
-            Note(Instrument.PIANO,Pitch.G1, 4),
-
-            Note(Instrument.PIANO,Pitch.G1, 8),
-            Note(Instrument.PIANO,Pitch.D2, 4),
-            Note(Instrument.PIANO,Pitch.C2, 4),
-
-            Note(Instrument.PIANO,Pitch.AS1, 8),
-
-            Note(Instrument.PIANO,Pitch.A1, 8),
-
-            Note(Instrument.PIANO,Pitch.A1, 8),
-            Note(Instrument.PIANO,Pitch.A1, 4),
-            Note(Instrument.PIANO,Pitch.C2, 4),
-
-            Note(Instrument.PIANO,Pitch.AS1, 8),
-            Note(Instrument.PIANO,Pitch.A1, 4),
-            Note(Instrument.PIANO,Pitch.G1, 4),
-
-            Note(Instrument.PIANO,Pitch.G1, 8),
-            Note(Instrument.PIANO,Pitch.AS1, 4),
-            Note(Instrument.PIANO,Pitch.A1, 4),
-            Note(Instrument.PIANO,Pitch.AS1, 4),
-            Note(Instrument.PIANO,Pitch.A1, 4),
-            Note(Instrument.PIANO,Pitch.AS1, 4),
-            Note(Instrument.PIANO,Pitch.G1, 4),
-
-            Note(Instrument.PIANO,Pitch.G1, 8),
-            Note(Instrument.PIANO,Pitch.AS1, 4),
-            Note(Instrument.PIANO,Pitch.A1, 4),
-            Note(Instrument.PIANO,Pitch.AS1, 4),
-            Note(Instrument.PIANO,Pitch.A1, 4),
-            Note(Instrument.PIANO,Pitch.AS1, 4),
-            Note(Instrument.PIANO,Pitch.G1, 4),
-            Note(Instrument.PIANO,Pitch.G1, 4),
-
-            Note(Instrument.PIANO,Pitch.G1, 8),
-            Note(Instrument.PIANO,Pitch.D2, 4),
-            Note(Instrument.PIANO,Pitch.C2, 4),
-
-            Note(Instrument.PIANO,Pitch.AS1, 8),
-
-            Note(Instrument.PIANO,Pitch.A1, 8),
-
-            Note(Instrument.PIANO,Pitch.A1, 8),
-            Note(Instrument.PIANO,Pitch.A1, 4),
-            Note(Instrument.PIANO,Pitch.C2, 4),
-
-            Note(Instrument.PIANO,Pitch.AS1, 8),
-            Note(Instrument.PIANO,Pitch.A1, 4),
-            Note(Instrument.PIANO,Pitch.G1, 4),
-
-            Note(Instrument.PIANO,Pitch.G1, 8),
-            Note(Instrument.PIANO,Pitch.AS1, 4),
-            Note(Instrument.PIANO,Pitch.A1, 4),
-            Note(Instrument.PIANO,Pitch.AS1, 4),
-            Note(Instrument.PIANO,Pitch.A1, 4),
-            Note(Instrument.PIANO,Pitch.AS1, 4),
-            Note(Instrument.PIANO,Pitch.G1, 4),
-
-            Note(Instrument.PIANO,Pitch.G1, 8),
-            Note(Instrument.PIANO,Pitch.AS1, 4),
-            Note(Instrument.PIANO,Pitch.A1, 4),
-            Note(Instrument.PIANO,Pitch.AS1, 4),
-            Note(Instrument.PIANO,Pitch.A1, 4),
-            Note(Instrument.PIANO,Pitch.AS1, 4)
-
-        )
+        loadFromJSON(FileUtil.readSongJSON(name))
     }
 
-    public suspend fun playSong(location: Location, player: Player) {
+    suspend fun playSong(location: Location, player: Player) {
         for (note in notes) {
-            delay(note.getMilliseconds());
-            note.playAtPos(location,player);
+            delay(note.getMilliseconds())
+            note.playAtPos(location,player)
         }
+    }
+
+    private fun loadFromJSON( json : String ) {
+        notes = Klaxon().parseArray<Note>(json)!!
     }
 
 }
